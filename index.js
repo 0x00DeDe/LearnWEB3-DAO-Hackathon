@@ -15,17 +15,17 @@ app.listen(port, () => {
   console.log("App running at port:" + port);
 });
 
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 0 0 * * * *", async () => {
   try {
     const PK = config.CH_KEY;
     const Pkey = `0x${PK}`;
 
     const signer = new ethers.Wallet(Pkey);
     let url =
-      "https://api.coingecko.com/api/v3/simple/price?ids=weth&vs_currencies=usd";
+      "https://api.coingecko.com/api/v3/simple/price?ids=ethereum-push-notification-service&vs_currencies=usd";
     let response = await axios.get(url);
 
-    price = response.data.weth.usd;
+    price = response.data.ethereum-push-notification-service.usd;
 
     // apiResponse?.status === 204, if sent successfully!
     const apiResponse = await PushAPI.payloads.sendNotification({
@@ -33,8 +33,8 @@ cron.schedule("* * * * *", async () => {
       type: 1, // broadcast
       identityType: 2, // direct payload
       notification: {
-        title: `Today's ETH price`,
-        body: `The price of eth is ${price} USD`,
+        title: `Today's PUSH price`,
+        body: `The price of PUSH is ${price} USD`,
       },
       payload: {
         title: `Today's ETH price`,
